@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+const p='dashboard/src/data.json',s=JSON.parse(fs.readFileSync(p,'utf8'));
+// In source table order, read from each visible Google profile hyperlink on 22 Sep 2026.
+const ids=`11747567735097915785 8641894492576027649 12946887803620449405 14508850449160690389 15293515276184096646 15580718474233701843 5010371217437723346 9627982374157468201 1292599151461446451 10860269798518822013 10729040734652595788 15176413417187491202 391728116601095733 16536981428259715852 8018722773960623422 10464863658725391640 12070009611761083695 1749838075113693069 8038230981192957445 7823320223730828222 13365364406600999943 11927932195036034324 4694760249524481734 5402154792029522002 18402502568181971505 8492287045911375863 14968078111677717350 2136335066354983139 7349631871348086524 13503505797647021760 13674676077049010904 16413636797862244687 3672591639934029871 2648145953141158532 12253808357893981468 14248548916166247071 2342892552420057592 1452437710087788496 7813156551392805129 1393362402704365349 5209519285508317593 14296784382808351282 8947815323888062985 5185260290658054220 17327192070510762914 11490795615211418345 16296647308265636711 3683668524632300246 4174802085419206751 5853415515518908921 193026514709619249 16780819780116525481 13033004725546553697 13466351956948427686 7982715927492750219 16612674174953216248 2292178348525299322 11841140802348658729 2197053177097757153 13114428802164448603 12892765811153024027 3027385122094481997 9044506842932155725 6805300614418715320 2338918876620783429 6185752324736839070`.split(' ');
+if(ids.length!==66 || new Set(ids).size!==66)throw Error('ID count mismatch');
+s.queries.branches.rows.forEach((r,i)=>{r.profileId=ids[i];r.profileUrl=`https://business.google.com/n/${ids[i]}/profile`;r.reviewsUrl=`https://business.google.com/n/${ids[i]}/reviews`;});
+s.status='browser-snapshot'; s.generatedAt=new Date().toISOString();
+s.group={id:'104765881644272532999',name:'stc Kuwait',reportedVerified:58,reportedPercent:88,total:66,observedAt:s.generatedAt};
+s.queries.branches.source.label='Google Business Profile · authorized Chrome account';
+s.queries.branches.source.executedAt=s.generatedAt;
+s.queries.branches.source.period='22 September 2026 browser observation';
+s.queries.branches.source.caveats=['Dated browser snapshot; automatic API refresh is not connected.','Group summary reports 58 verified (88%); table labels are 57 Verified, 7 Verification required, 1 Duplicate and 1 Published. Do not equate Published with Verified.','Profile IDs were read from profile links; API resource identity must be confirmed by the authorized API.','No aggregate ratings or complete review history collected. Missing values are unavailable, not zero.'];
+s.queries.branches.source.evidenceFlow.push({title:'Authorized browser verification',detail:'Read all 66 rows and profile-link identifiers in the signed-in stc Kuwait group. The group header reports 58 verified. Row labels agree with the supplied list.'});
+s.queries.reviews={rows:[],source:{label:'Google Business Profile reviews · not yet connected',caveats:['The group review feed is readable in Chrome. No complete review dataset has been imported. Automatic refresh requires OAuth and approved Google Business Profile API access.']}};
+fs.writeFileSync(p,JSON.stringify(s,null,2));
+fs.writeFileSync('source/profile-ids.json',JSON.stringify(s.queries.branches.rows.map(({name,storeCode,profileId,profileUrl})=>({name,storeCode,profileId,profileUrl})),null,2));
+console.log('66 profile IDs saved; snapshot provenance updated');

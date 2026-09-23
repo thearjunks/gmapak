@@ -1,0 +1,784 @@
+{
+  "surface": "dashboard",
+  "title": "stc Kuwait · Branch intelligence",
+  "generatedAt": "2026-09-22T09:15:29.706Z",
+  "buildStatus": "creating",
+  "status": "imported",
+  "filters": [],
+  "queries": {
+    "branches": {
+      "rows": [
+        {
+          "id": "a55f46302ee6184b",
+          "storeCode": "FA05",
+          "name": "stc Kuwait - Al-Anoud Mall, Fahaheel",
+          "address": "Mecca Street,Block 11, Inside Al-Anoud Mall,Groundfloor, Fahaheel 63000",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "Yes"
+        },
+        {
+          "id": "07b901e0f24f66d7",
+          "storeCode": "stc11",
+          "name": "stc Kuwait - Al Bairaq Mall, Eqaila",
+          "address": "Al Bairaq Mall, Eqaila Fintas 50013, Block 5, Eqaila 50013",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "1d72be26845226b6",
+          "storeCode": "stc13",
+          "name": "stc Kuwait - Al Dabbous Complex, Farwaniya",
+          "address": "Al Dabbous Complex, Ground floor, Habeeb Munawer St. at the main street side, Block 06, Farwaniya 81006",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "a8c565d4fcf81e52",
+          "storeCode": "stc61",
+          "name": "stc Kuwait - Ali Sabah Al-Salem Co-op,",
+          "address": "Ali Sabah Al-Salem Co, Block 9, 1 St, Ground Floor, Ali Sabah Al-Salem",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "f0c992b1511bfeb1",
+          "storeCode": "stc02",
+          "name": "stc Kuwait - Al Khiran Mall, Al Khiran",
+          "address": "Al Khiran Mall- Subah Alahmad Sea Side, Ground floor, Al Khiran",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "Yes"
+        },
+        {
+          "id": "bd864140533f79f7",
+          "storeCode": "FV89",
+          "name": "stc Kuwait - Al Kout Mall, Fahahleel",
+          "address": "Al Kout Mall, Al Daboos St, Block 12,, Fahahleel 63000",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "9f144b6a6be50b25",
+          "storeCode": "07403226257408280258",
+          "name": "stc Kuwait - Al Nakheel Commercial Complex, Khaitan",
+          "address": "stc Kuwait - Al Nakheel Commercial Complex, Khaitan 68 St Block 7, Khaitan 23351",
+          "status": "Verification required",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "e02adedc8dc3f8bd",
+          "storeCode": "01370126038393508119",
+          "name": "stc Kuwait - Al-Sabahiya Co-op",
+          "address": "Inside Al-Sabahiya Coop, 8 St, Block 5, Ground Floor, Al-Sabahiya 54405",
+          "status": "Duplicate",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "9a0afbbca2946970",
+          "storeCode": "stc38",
+          "name": "stc Kuwait - Al-Salam & Al-Siddeeq Co-op.",
+          "address": "Inside Al-Salam & Al-Siddeeq Co-op Branch, Block 7, 705 St, Ground Floor, Salam",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "647eead054a9ac72",
+          "storeCode": "10210382424702339401",
+          "name": "stc Kuwait - AlSalam Mall, Salmiya",
+          "address": "Salem Al-Mubarak St, Block 9, Ground Floor, Salmiya 20009",
+          "status": "Verified",
+          "closure": "Temporarily closed",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "12ed1c39c2df7cac",
+          "storeCode": "12057872339200921846",
+          "name": "stc Kuwait - Andalous Co",
+          "address": "Andalous Co, Block 11, 106 St, Andalous",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "16e26aa8566dafdb",
+          "storeCode": "FA07",
+          "name": "stc Kuwait - Ardiya Industrial",
+          "address": "Ardiya Industrial Area- Block 2, Building No 97- Ground floor, Ardiya 92400",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "eff4caab1df02469",
+          "storeCode": "16114985311491316697",
+          "name": "stc Kuwait - Assima mall, Kuwait City",
+          "address": "Assima mall, Al Hashimiya, 1 شارع عبدالمنعم رياض،، مدينة الكويت, Kuwait City",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "8dab81d31defb937",
+          "storeCode": "stc17",
+          "name": "stc Kuwait - Avenues Mall Phase 2, Al-Rai",
+          "address": "Avenues Mall, Block 1, Phase 2, Dome 2, Ghazali St, Al-Rai, AlRai",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "bfca93bdc30e18fc",
+          "storeCode": "stc18",
+          "name": "stc Kuwait - Avenues Mall Phase 4, Al Rai",
+          "address": "Kuwait Al Rai, Avenues Mall Phase 4, 8W4V+5F Shuwaikh Industrial",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "b2f17da066ee52d0",
+          "storeCode": "FA06",
+          "name": "stc Kuwait - Awtad Mall, Jahar",
+          "address": "Awtad Mall, Mezzanine, Jahar",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "d6fcfeb6fdc31ff7",
+          "storeCode": "stc15",
+          "name": "stc Kuwait - Awtad Resedince Tower, Mahboula",
+          "address": "Coastal Road, street 209, block 2, Awtad Resedince Tower - Ground floor, Mahboula, Al Ahmadi",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "2d210f4a1b0ac7bf",
+          "storeCode": "01467496192842299983",
+          "name": "stc Kuwait - Daiya Co-op",
+          "address": "Inside Al Daiya Mall, 2nd Floor, block04, Jassim Mohammed Alebrahim St, Kuwait City, Daiya",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "3246d5d1e990c7f0",
+          "storeCode": "stc54",
+          "name": "stc Kuwait - Eureka, Farwaniya",
+          "address": "Habib Munawer St, Block 4, Inside - Eureka, Ground Floor, Farwaniya",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "d1c20652a78e57a7",
+          "storeCode": "00141548783437456083",
+          "name": "stc Kuwait - Farwaniya Co-op",
+          "address": "Block 4, 54 St, Ground Floor, Farwaniya 81004",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "6523435dd820ff26",
+          "storeCode": "15830416476255836538",
+          "name": "stc Kuwait - Farwaniya near to Fire station",
+          "address": "Block 3, Ali Fahad Al Dewailah St, near to Canary Restaurant Building, Infront of the Street, Farwaniya 85000",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "9aa7a5841aa9f50a",
+          "storeCode": "stc12",
+          "name": "stc Kuwait - Hawally",
+          "address": "Beirut St, Across Beiruit St & Suraqa Bin Malik St ,Shop#16, Block 8, حولي",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "047993af21642c1a",
+          "storeCode": "FA05",
+          "name": "stc Kuwait - Hawazen Complex, Khaitan",
+          "address": "Hawazen Complex- Block 7، شارع 70، 31st، Khaitan 83001",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "Yes"
+        },
+        {
+          "id": "66310d6fb150ddb8",
+          "storeCode": "00814131803086083966",
+          "name": "stc Kuwait - Head Office, Kuwait City, Assima Tower",
+          "address": "Kuwait city - Block 3, Inside Assima Tower, Othman Bin Affan St., Kuwait City 92000",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "e7d9c99394a79e98",
+          "storeCode": "stc02",
+          "name": "stc Kuwait - Inside Al Manar Mall, Jahra",
+          "address": "Al Manar Mall, 9346 2 St, Ground Floor - Shop12, Al Jahra",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "Yes"
+        },
+        {
+          "id": "72828395b35ff567",
+          "storeCode": "07128487218024246472",
+          "name": "stc Kuwait - Inside Al Rawda Co-op",
+          "address": "Ali Sulaiman Abu Kuhail St, Block 2, Ground Floor, Inside Al Rawda & Hawally Co-op, Rawda 73302",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "ca7bcfca66154d3c",
+          "storeCode": "12835708498271471400",
+          "name": "stc Kuwait - Inside City Centre, Salmiya",
+          "address": "Qatar St, Block 6, Inside City Centre, Salmiya 20006",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "0dd5a87025851d9e",
+          "storeCode": "06183285139310314965",
+          "name": "stc Kuwait - Inside Eureka, Fahaheel",
+          "address": "Dabous St, Block 5,, Fahaheel 64003",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "cc78052bdc9d804a",
+          "storeCode": "10691980038300858791",
+          "name": "stc Kuwait - Inside Eureka, Jahra",
+          "address": "Marzouq Al Miteb St, Block 3, Inside Eureka, Ground Floor, Jahra 00003",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "b5c5147714cfb2af",
+          "storeCode": "14438135615010289845",
+          "name": "stc Kuwait - Inside Kuwait International Airport Departure 1Terminal - 1st Floor",
+          "address": "Kuwait International Airport, Ghazali St, 1st floor Departure area, near pizza express, Kuwait",
+          "status": "Verification required",
+          "closure": "Permanently closed",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "c863d5e4e0d3089c",
+          "storeCode": "02743950070687817577",
+          "name": "stc Kuwait - Inside Lulu Hypermarket, Al Jahra Industerial",
+          "address": "Al-Bakree St, Block 1, Inside Lulu Hypermarket, Ground Floor, Al Jahra Industerial 01002",
+          "status": "Verification required",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "a72f332fd57a2fad",
+          "storeCode": "15962470251104860776",
+          "name": "stc Kuwait - Inside Shuhada Co-op",
+          "address": "Inside Shuhada Co-Op, Ground Floor, 417 St,Block 4, Shuhada 48554",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "ed863c749dea4494",
+          "storeCode": "12345174583525781685",
+          "name": "stc Kuwait - Inside Sultan Center, Fahaheel",
+          "address": "Inside Sultan Center, Fahaheel Ground Floor, 2 St, Block 5, Fahaheel 63005",
+          "status": "Verification required",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "6822ef39c2bb6fea",
+          "storeCode": "10801395095966294421",
+          "name": "stc Kuwait - Inside Sultan Center, Mangaf",
+          "address": "Street 14, Block 4, Inside Sultan Center, 1st Floor, Mangaf 53704",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "f4bcd40f47b62028",
+          "storeCode": "01705190207105276530",
+          "name": "stc Kuwait - Inside Sultan Center, Salmiya",
+          "address": "The Sultan Center, Block 4 - Salem Al-Mubarak St, 1st Floor, Salmiya 20004",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "75eaf09a4b6d39bd",
+          "storeCode": "02602821684319480191",
+          "name": "stc Kuwait - Inside Sultan Center, Shuwaikh Industria",
+          "address": "The Sultan Center, Block B, 53 St, Shuwaikh Industrial 72504",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "5728cbf7c66757e4",
+          "storeCode": "01580709977748113486",
+          "name": "stc Kuwait - Inside Sultan Center, Sulaibiya",
+          "address": "The Sultan Center - Khalaf Al Ahmar, Block 1 - Ground Floor, Sulaibiya",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "52edeebe75ffb078",
+          "storeCode": "05832549272772144127",
+          "name": "stc Kuwait - Inside Sultan Center - Al Kout Souk, Fahaheel",
+          "address": "Al-Dabboos Street, block 14, Inside The Sultan Center - Al Kout Souk, Fahaheel 63000",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "79576bc796ee0635",
+          "storeCode": "10859421213637564275",
+          "name": "stc Kuwait - Inside The Sultan center - Al Khayma Mall, Jahra",
+          "address": "Daabal Al Khuzaei St,, Inside The Sultan center - Al Khayma Mall, Block 1, Ground Floor, Jahra 01002",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "9d41075c587e8ba2",
+          "storeCode": "18065624115546057739",
+          "name": "stc Kuwait - Inside The Sultan Center - The Promenade Mall, Hawally",
+          "address": "Tunis St. , 108St., Inside The Promenade Mall, Inside The Sultan Center, Ground Floor, Block 3, Hawally 30002",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "0952b07308db744e",
+          "storeCode": "FS97",
+          "name": "stc Kuwait - Jabriya Co-op,",
+          "address": "Jabriya - Block 2, Jabriya Coop Mall, Jabriya 46300",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "87698acabe33f144",
+          "storeCode": "02841147282714144316",
+          "name": "stc Kuwait - Kuwait International Airport Terminal 1 - Arrival entrance",
+          "address": "Kuwait International Airport Terminal 1, Kuwait",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "465ebbcc0505a3d1",
+          "storeCode": "00110678637125113447",
+          "name": "stc Kuwait - Lulu Hypermarket, Qurain",
+          "address": "Al Qurain City Market, 28 St, 1st Floor, West of Abu Fatira Al Herafia 47411",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "11998c9ec5f455a9",
+          "storeCode": "stc46",
+          "name": "stc Kuwait - Marina Mall, Salmiya",
+          "address": "Inside Marina Mall, Block 7, Salem Al-Mubarak St, Ground Floor - Dome, Salmiya 20007",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "a7de317f78535cbd",
+          "storeCode": "01465912219803560744",
+          "name": "stc Kuwait - Mubarak Al-Kabeer Co-op",
+          "address": "252 St, Block 4, Inside Mubarak Al-Kabeer Co-op, Ground Floor, Mubarak Al-Kabeer 47504",
+          "status": "Verification required",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "ba92344637d14346",
+          "storeCode": "FX26",
+          "name": "stc Kuwait - Mubarak complex, Jleeb Al-Shuyoukh",
+          "address": "Inside Mubarak complex - Block 1, Abdullah Mutlaq Al-Musailem St, Infront of the Street, Jleeb Al-Shuyoukh 85601",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "ac7ed62f01888967",
+          "storeCode": "10954677762992171342",
+          "name": "stc Kuwait - Noura Complex, Hawally",
+          "address": "Abdulla Abdullataif Al Othman St, Block 10, Noura Complex building, Ground Floor - Shop 19, Hawally",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "84b0eef186b64fb3",
+          "storeCode": "FX39",
+          "name": "stc Kuwait - Ostoura Complex, Farwaniya",
+          "address": "Ostoura Complex - Block 3, Habib Munawer St, Farwaniya Commercial complex, Farwaniya 85000",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "cadaeae704c7f7d5",
+          "storeCode": "09131129650710898377",
+          "name": "stc Kuwait- Panorama Tower entrance, Mahboula",
+          "address": "234 St, Block 02, Panorama Tower Entrance, Mahboula 54102",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "56ac8b1c82d704dc",
+          "storeCode": "FX31",
+          "name": "stc Kuwait - Qurain City, West of Abu Fatira Al-Herafia",
+          "address": "Aswaq, Block 1, 21 St, Infront of the Street, Same Building of Galaxy car, Aoha island Real Estate Building, West of Abu Fatira Al-Herafia 47041",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "7ca28fedd2d0ea8c",
+          "storeCode": "15126375677909106140",
+          "name": "stc Kuwait - Sabah Al Ahmad B5 Co op",
+          "address": "Street 201, Block 6، Near Sabah Al Ahmad co-op society b5، 6 جمعية صباح الاحمد b5 قطع، Sabah Al-Ahmad 65456",
+          "status": "Verification required",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "1ae3e963babe6da3",
+          "storeCode": "10747147920926933375",
+          "name": "stc Kuwait - Sabah Al Nasser Co-op",
+          "address": "30 St, Block 3, Inside Sabah Al Nasser Co-op, Ground Floor, Sabah Al Nasser 92653",
+          "status": "Verified",
+          "closure": "Temporarily closed",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "b32865609b3fd213",
+          "storeCode": "stc50",
+          "name": "stc Kuwait - Sabah Al Salem Co-op,",
+          "address": "Inside Sabah Al Salem Co-op, 1 st St, 12 Ln, Block 09, Ground Floor, Sabah Al-Salem",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "74a25a2f57bd5464",
+          "storeCode": "03955653504420691541",
+          "name": "stc Kuwait - Salwa Co-op,",
+          "address": "Salem Ganim Al Herayyis St, Block 5, Inside Salwa Co-Op, Ground Floor, Salwa 25600",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "eeb13e271132071e",
+          "storeCode": "FX38",
+          "name": "stc Kuwait - Sama Mall, Eqaila",
+          "address": "Sama Mall, Block 5 - 250 St, Ground Floor, Eqaila 90005",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "76a362b6a263ff39",
+          "storeCode": "00093845074712084485",
+          "name": "stc Kuwait - Sultan Center, Adailiya",
+          "address": "Sami Ahmed Al Munayes St, Block 4, Ground Floor, Adailiya 73104",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "9d27a3f3441f54da",
+          "storeCode": "stc32",
+          "name": "stc Kuwait - Sultan Center, Dhajeej",
+          "address": "Inside The Sultan Center, Ground Floor, Block 1, 79 St, Dhajeej",
+          "status": "Verification required",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "a35df068fcc3d8d5",
+          "storeCode": "08922565440115000341",
+          "name": "stc Kuwait - Sultan Center, Hawally Qadsia Club",
+          "address": "Inside Sultan Center, Beside Qadsia Sports Club, Beirut St., Block 6, Ground Floor, Hawally 32006",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "1f2f27fe26a6bdd5",
+          "storeCode": "00545195345777686579",
+          "name": "stc Kuwait - Sultan Center, Jabriya",
+          "address": "10 St, Block 12, Inside The Sultan Center Jabriya, 1st Floor, Jabriya 46312",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "27fa4972f36eafaa",
+          "storeCode": "09320687382115600630",
+          "name": "stc Kuwait - Sultan Center, Salwa",
+          "address": "The Sultan Center, Block 9, 1st Floor, 4 St, Salwa",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "2e653e0dbccd2b88",
+          "storeCode": "stc23",
+          "name": "stc Kuwait - Sultan Center, Sharq",
+          "address": "Inside The Sultan Center, Block 2, Arabian Gulf Road, 1st Floor, Sharq",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "13788e8980302d63",
+          "storeCode": "04922296855642205442",
+          "name": "stc Kuwait - Sultan Center Boulevard , Salmiya",
+          "address": "Qatar St, Block 8, Inside Sultan Boulevard, Ground Floor, Salmiya 20008",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "0a8729791dd3d80a",
+          "storeCode": "02787829253986456264",
+          "name": "stc Kuwait - The Palm Mall, Sulaibikhat",
+          "address": "Jamal Abdul nasser St, 85, Block 1, The Palm Mall, Ground Floor, Sulaibikhat",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "66851f7cb66cea1b",
+          "storeCode": "09048374014383221354",
+          "name": "stc Kuwait - The Walk Mall, Salmiya",
+          "address": "Salem al mubarak st, Block 4, Ground Floor, Salmiya 22004",
+          "status": "Published",
+          "closure": "Permanently closed",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "68b79518bf5bcdda",
+          "storeCode": "04598922766568355162",
+          "name": "stc Kuwait - The Warehouse Mall, South Sabahiyah",
+          "address": "The Warehouse Mall -Block 1, Hamad Al-Zowayir St, Ground Floor - Opposite of Abyat, South Sabahiyah",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        },
+        {
+          "id": "21415b67d47a4850",
+          "storeCode": "01573020157864460292",
+          "name": "stc Kuwait - Zainah Tower, Hawally",
+          "address": "ZAINAH TOWER, Tunisia St, Block 3, also called Al-Nahar Complex, Ground Floor - Shop 9, Hawally 13079",
+          "status": "Verified",
+          "closure": "Not specified",
+          "rating": null,
+          "reviewCount": null,
+          "duplicateCode": "No"
+        }
+      ],
+      "source": {
+        "label": "User-supplied Google Business Profile business list",
+        "files": [
+          "Pasted text.txt"
+        ],
+        "rowCount": 66,
+        "period": "Snapshot date not provided",
+        "caveats": [
+          "Imported list, not live Google data. Source observation time is unknown.",
+          "Ratings, reviews, coordinates, phone numbers and hours were not supplied.",
+          "English names and addresses preserved exactly. Arabic source records are unavailable.",
+          "A browser access check showed 0 businesses for this group in the signed-in account; it did not validate or replace the supplied list."
+        ],
+        "metricDefinitions": [
+          {
+            "label": "Verified",
+            "definition": "Rows whose supplied status is exactly Verified. Verified / all rows gives the verification rate."
+          },
+          {
+            "label": "Attention",
+            "definition": "Unique rows with status other than Verified, an explicit closure, or a repeated store code. Conditions may overlap."
+          }
+        ],
+        "evidenceFlow": [
+          {
+            "title": "Source",
+            "detail": "User pasted 66 business records from Google Business Profile group 104765881644272532999."
+          },
+          {
+            "title": "Import",
+            "detail": "Read each store code and name, preserve the address, separate closure labels from verification status. Keep store codes as strings including leading zeros."
+          },
+          {
+            "title": "Availability",
+            "detail": "No ratings or reviews were supplied; null remains unavailable, never zero."
+          }
+        ]
+      },
+      "methods": [
+        {
+          "language": "text",
+          "code": "Parse tab-separated store code and business name; collect address until status; separate explicit closure. Count repeated exact store codes without merging locations."
+        }
+      ]
+    }
+  }
+}

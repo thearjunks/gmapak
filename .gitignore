@@ -1,0 +1,9 @@
+.private/
+*.log
+.env
+.env.*
+*client_secret*.json
+dashboard/dist/
+dashboard/.data-app-offline/
+dashboard/*
+node_modules/
