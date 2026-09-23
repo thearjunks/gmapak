@@ -1,11 +1,11 @@
 {
-  "name": "stc-kuwait-branch-intelligence",
+  "name": "ak-branch-monitor",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test google-client.test.mjs google-maps-public.test.mjs"
+    "test": "node --test auth.test.mjs google-client.test.mjs google-maps-public.test.mjs dashboard-model.test.mjs"
   },
   "engines": {
     "node": ">=20"

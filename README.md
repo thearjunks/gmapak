@@ -1,6 +1,6 @@
-# stc Kuwait Branch Intelligence
+# AK Branch Monitor
 
-A bilingual local dashboard for monitoring 66 stc Kuwait Google Business branches. It displays profile status, aggregate ratings, review counts, refresh health, reviewer details collected from public listings, and per-branch filtering.
+A bilingual dashboard for monitoring 66 Google Business locations. It displays profile status, aggregate ratings, review counts, refresh health, reviewer details returned by the approved API, and per-branch filtering.
 
 ## Run locally
 
@@ -18,6 +18,9 @@ The intended production URL is <https://braches.stcdigitalhub.com/>. Configure t
 
 ```text
 PUBLIC_ORIGIN=https://braches.stcdigitalhub.com
+APP_USERNAME=<dashboard username>
+APP_PASSWORD_SHA256=<sha256 of the dashboard password>
+SESSION_SECRET=<random high-entropy session signing key>
 ```
 
 The host supplies `PORT`; the server listens on that port automatically. For production OAuth, add `https://braches.stcdigitalhub.com/oauth/callback` to the Google OAuth client's authorized redirect URIs.
@@ -34,4 +37,4 @@ Full review bodies require approved Google Business Profile API access. Configur
 npm test
 ```
 
-The test suite covers the 66-branch registry, review pagination, partial refresh retention, public listing parsing, and ambiguous match handling.
+The test suite covers login sessions, the 66-branch registry, review pagination, partial refresh retention, public listing parsing, dashboard metrics, and ambiguous match handling.

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0f2942">
+  <title>Sign in · AK Branch Monitor</title>
+  <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+  <main class="login-shell">
+    <section class="welcome" aria-label="AK Branch Monitor">
+      <div class="logo">AK</div>
+      <div><span>BRANCH OPERATIONS</span><h1>Clear visibility across every location.</h1><p>Monitor ratings, review coverage, listing health and refresh status from one secure workspace.</p></div>
+      <small>AK Branch Monitor</small>
+    </section>
+    <section class="login-panel">
+      <form id="login-form" class="login-card">
+        <span class="eyebrow">SECURE ACCESS</span>
+        <h2>Welcome back</h2>
+        <p>Sign in to access the branch monitoring workspace.</p>
+        <label>Username<input id="username" name="username" autocomplete="username" required autofocus></label>
+        <label>Password<input id="password" name="password" type="password" autocomplete="current-password" required></label>
+        <p id="error" class="error" role="alert" aria-live="polite"></p>
+        <button type="submit">Sign in</button>
+        <small>Protected dashboard · Authorized users only</small>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="/login.js"></script>
+</body>
+</html>
