@@ -377,7 +377,7 @@ function navigate(){
 }
 
 $('#language').addEventListener('click',()=>{ar=!ar;localStorage.setItem('ak-language',ar?'ar':'en');render()});
-$('#logout').addEventListener('click',async()=>{await fetch('/api/auth/logout',{method:'POST',headers:{'X-Dashboard-Request':'1'}}).catch(()=>{});location.replace('/login')});
+$('#logout').addEventListener('click',async()=>{await fetch('/api/auth/logout',{method:'POST',headers:{'X-Dashboard-Request':'1'}}).catch(()=>{});location.replace('/sign-in')});
 $('#refresh').addEventListener('click',refresh);
 $('.dialog-close').addEventListener('click',()=>$('#detail').close());
 $('#detail').addEventListener('click',event=>{if(event.target===$('#detail'))$('#detail').close()});
@@ -385,7 +385,7 @@ window.addEventListener('hashchange',navigate);
 
 try{
   const [snapshotResponse,statusResponse,sessionResponse]=await Promise.all([fetch('/api/snapshot',{cache:'no-store'}),fetch('/api/google/status',{cache:'no-store'}),fetch('/api/auth/session',{cache:'no-store'})]);
-  if(sessionResponse.status===401){location.replace('/login');throw Error('Authentication required.');}
+  if(sessionResponse.status===401){location.replace('/sign-in');throw Error('Authentication required.');}
   if(!snapshotResponse.ok||!statusResponse.ok||!sessionResponse.ok)throw Error('Dashboard data unavailable.');
   [data,status]=await Promise.all([snapshotResponse.json(),statusResponse.json()]);
   signedUser=(await sessionResponse.json()).username||'';

@@ -38,6 +38,7 @@ async function sync(){if(state.syncing)return;state.syncing=true;state.lastAttem
  }catch(e){state.message=e.message||'Google refresh failed. Existing snapshot retained.';}finally{state.syncing=false;saveState();}}
 const securityHeaders={'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY','Content-Security-Policy':"default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"};
 function json(res,code,body,headers={}){res.writeHead(code,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...securityHeaders,...headers});res.end(JSON.stringify(body));}
+function redirect(res,location){res.writeHead(303,{Location:location,'Cache-Control':'no-store, private','Vary':'Cookie',...securityHeaders});res.end();}
 const cookies=req=>Object.fromEntries((req.headers.cookie??'').split(';').map(item=>{const index=item.indexOf('=');if(index<0)return null;try{return [decodeURIComponent(item.slice(0,index).trim()),decodeURIComponent(item.slice(index+1).trim())];}catch{return null;}}).filter(Boolean));
 const session=req=>auth.validate(cookies(req).ak_session);
 const body=async req=>{let value='';for await(const chunk of req){value+=chunk;if(value.length>8192)throw Error('Request body is too large.');}return JSON.parse(value||'{}');};
@@ -58,11 +59,11 @@ const server=http.createServer(async(req,res)=>{try{
   return json(res,200,{authenticated:true,username:credentials.username},{'Set-Cookie':sessionCookie(auth.issue())});
  }
  const signedIn=session(req);
- if(['/login','/login.html','/login.css','/login.js'].includes(url.pathname)){
-  if(signedIn&&(url.pathname==='/login'||url.pathname==='/login.html')){res.writeHead(303,{Location:'/',...securityHeaders});return res.end();}
-  const asset=url.pathname==='/login'||url.pathname==='/login.html'?'login.html':url.pathname.slice(1);return serve(res,req,asset);
+ if(['/sign-in','/login','/login.html','/login.css','/login.js'].includes(url.pathname)){
+  if(signedIn&&(url.pathname==='/sign-in'||url.pathname==='/login'||url.pathname==='/login.html'))return redirect(res,'/');
+  const asset=['/sign-in','/login','/login.html'].includes(url.pathname)?'login.html':url.pathname.slice(1);return serve(res,req,asset);
  }
- if(!signedIn){if(url.pathname.startsWith('/api/')||url.pathname==='/oauth/callback')return json(res,401,{message:'Authentication required.'});res.writeHead(303,{Location:'/login',...securityHeaders});return res.end();}
+ if(!signedIn){if(url.pathname.startsWith('/api/')||url.pathname==='/oauth/callback')return json(res,401,{message:'Authentication required.'});return redirect(res,'/sign-in');}
  if(req.method==='GET'&&url.pathname==='/api/auth/session')return json(res,200,{authenticated:true,username:signedIn.u});
  if(req.method==='POST'&&url.pathname==='/api/auth/logout')return json(res,200,{authenticated:false},{'Set-Cookie':`ak_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${origin.startsWith('https:')?'; Secure':''}`});
  if(req.method==='GET'&&url.pathname==='/api/snapshot')return json(res,200,read(snapshotPath,{}));
