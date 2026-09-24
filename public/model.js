@@ -16,6 +16,8 @@ export const dashboardMetrics=data=>{
   const branches=data?.queries?.branches?.rows??[];
   const rated=branches.filter(branch=>Number.isFinite(branch.rating));
   const reviewBodies=data?.queries?.reviews?.rows??[];
+  const reviewBodyCount=data?.accessSummary?.reviewBodies??reviewBodies.length;
+  const branchesWithReviewBodies=data?.accessSummary?.branchesWithReviewBodies??new Set(reviewBodies.map(review=>review.branchId)).size;
   const totalReviews=rated.reduce((sum,branch)=>sum+(Number.isFinite(branch.reviewCount)?branch.reviewCount:0),0);
   const weightedDenominator=rated.reduce((sum,branch)=>sum+(branch.reviewCount>0?branch.reviewCount:0),0);
   const weightedRating=weightedDenominator
@@ -28,8 +30,8 @@ export const dashboardMetrics=data=>{
     coverage:branches.length?rated.length/branches.length:0,
     totalReviews,
     weightedRating,
-    reviewBodies:reviewBodies.length,
-    branchesWithReviewBodies:new Set(reviewBodies.map(review=>review.branchId)).size
+    reviewBodies:reviewBodyCount,
+    branchesWithReviewBodies
   };
 };
 

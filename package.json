@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test auth.test.mjs google-client.test.mjs google-maps-public.test.mjs dashboard-model.test.mjs"
+    "test": "node --test auth.test.mjs user-store.test.mjs server.integration.test.mjs google-client.test.mjs google-maps-public.test.mjs dashboard-model.test.mjs"
   },
   "engines": {
     "node": ">=20"

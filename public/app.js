@@ -10,6 +10,7 @@ const icons={
   branches:'<path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
   reviews:'<path d="M21 11a9 9 0 0 1-9 9H4l-2 2V11a9 9 0 0 1 19 0Z"/><path d="M7 9h10M7 13h6"/>',
   connection:'<path d="m9 15 6-6M8 16l-2 2a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0M16 8l2-2a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(2 0) scale(.85)"/>',
+  users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M16 11h6"/>',
   refresh:'<path d="M20 7v5h-5M4 17v-5h5M6 6a8 8 0 0 1 14 6M4 12a8 8 0 0 0 14 6"/>',
   check:'<path d="m5 12 4 4L19 6"/>',
   alert:'<path d="m12 3 10 18H2L12 3Z"/><path d="M12 9v5M12 17h.01"/>',
@@ -24,6 +25,8 @@ let status={};
 let route='overview';
 let ar=localStorage.getItem('ak-language')==='ar';
 let signedUser='';
+let sessionUser=null;
+let managedUsers=[];
 let requesting=false;
 let requestError='';
 let branchQuery='';
@@ -40,12 +43,14 @@ const rating=value=>Number.isFinite(value)?value.toFixed(1):'—';
 const attention=branch=>branch.status!=='Verified'||branch.closure!=='Not specified'||branch.duplicateCode==='Yes'||Boolean(branch.reviewError);
 const statusLabels={Verified:'مُثبَت الملكية','Verification required':'يجب تأكيد البيانات',Duplicate:'تكرار',Published:'تم النشر','Temporarily closed':'مغلق مؤقتاً','Permanently closed':'مغلق نهائياً'};
 const translatedStatus=value=>ar?(statusLabels[value]??value):value;
-const routeTitles=()=>({
+const allowed=permission=>Boolean(sessionUser?.permissions?.includes(permission)||sessionUser?.roles?.includes('super_admin'));
+const routeTitles=()=>Object.fromEntries(Object.entries({
   overview:t('Overview','نظرة عامة'),
   branches:t('Branches','الفروع'),
   reviews:t('Ratings & reviews','التقييمات والمراجعات'),
-  connection:t('Data source','مصدر البيانات')
-});
+  connection:t('Data source','مصدر البيانات'),
+  users:t('User management','إدارة المستخدمين')
+}).filter(([id])=>allowed(`screen:${id}`)));
 
 function toast(message){
   const element=$('#toast');
@@ -174,13 +179,13 @@ function branchHero(branch,metrics){
 function filteredReviewRows(){return reviewRows(data,{branchId:reviewBranch,stars:reviewStars,query:reviewQuery})}
 
 function reviewCards(rows,selected){
-  if(rows.length)return rows.map(review=>`<article class="review-card">
+  if(rows.length)return `<div class="review-feed">${rows.map(review=>`<article class="review-card">
     <div class="review-avatar">${esc((review.reviewer||'?').trim().charAt(0).toUpperCase())}</div>
-    <div><div class="review-head"><div><strong>${esc(review.reviewer||t('Anonymous','مجهول'))}</strong><div class="review-meta">${esc(cleanBranchName(review.branchName))} · ${esc(review.relativeTime||formatDate(review.updateTime))}</div></div><span class="stars" aria-label="${review.rating||0} stars">${'★'.repeat(review.rating||0)}${'☆'.repeat(Math.max(0,5-(review.rating||0)))}</span></div>
+    <div class="review-content"><div class="review-head"><div><strong>${esc(review.reviewer||t('Anonymous','مجهول'))}</strong><div class="review-meta">${esc(cleanBranchName(review.branchName))}</div></div><div class="review-score"><span class="stars" aria-label="${review.rating||0} stars">${'★'.repeat(review.rating||0)}${'☆'.repeat(Math.max(0,5-(review.rating||0)))}</span><small>${esc(review.relativeTime||formatDate(review.updateTime))}</small></div></div>
     <p class="review-text">${esc(review.comment||t('Rating only','تقييم فقط'))}</p>
-    ${review.reply?`<div class="review-reply"><b>${t('Business response','رد النشاط التجاري')}</b><br>${esc(review.reply)}</div>`:''}
-    <div class="review-meta">${t('Collected','تم الجمع')} ${formatDate(review.fetchedAt)}</div></div>
-  </article>`).join('');
+    ${review.reply?`<div class="review-reply"><b>${t('Business response','رد النشاط التجاري')}</b><p>${esc(review.reply)}</p></div>`:''}
+    <div class="review-foot"><span>${t('Collected','تم الجمع')} ${formatDate(review.fetchedAt)}</span>${review.reply?pill(t('Replied','تم الرد'),'ok'):pill(t('No visible reply','لا يوجد رد ظاهر'),'neutral')}</div></div>
+  </article>`).join('')}</div>`;
   const reported=selected&&Number.isFinite(selected.reviewCount)?selected.reviewCount:0;
   return `<div class="empty-state"><div class="empty-icon">${icon('reviews')}</div><h3>${reported?t('Rating and review count are available','التقييم وعدد المراجعات متاحان'):t('No matching review text','لا توجد نصوص مراجعات مطابقة')}</h3><p>${reported?t(`${number(reported)} reviews are reported for this branch. Individual review text will populate automatically when Google enables the approved reviews API.`,`تم الإبلاغ عن ${number(reported)} مراجعة لهذا الفرع. ستظهر نصوص المراجعات تلقائياً عند تفعيل جوجل لواجهة المراجعات المعتمدة.`):t('Try another branch, star rating or search term.','جرّب فرعاً أو تقييماً أو عبارة بحث أخرى.')}</p>
     ${selected?.reviewsUrl?`<a class="button" href="${safeUrl(selected.reviewsUrl)}" target="_blank" rel="noreferrer">${t('Open current Google reviews','فتح مراجعات جوجل الحالية')} ↗</a>`:''}</div>`;
@@ -193,36 +198,28 @@ function reviewsPage(){
   const rows=filteredReviewRows();
   const selectedBodies=selected?branchReviews(data,selected.id).length:metrics.reviewBodies;
   const directory=[...branches].sort((a,b)=>(b.reviewCount??-1)-(a.reviewCount??-1));
-  return `${refreshStrip()}${pageIntro(t('Ratings and customer reviews','التقييمات ومراجعات العملاء'),t('Every available branch rating is shown independently from review-text coverage.','يظهر كل تقييم متاح للفرع بشكل مستقل عن توفر نصوص المراجعات.'))}
-    <section class="metrics">
-      ${metricCard(t('Rated branches','الفروع المقيّمة'),`${metrics.rated}/${metrics.branches}`,`${Math.round(metrics.coverage*100)}% ${t('coverage','تغطية')}`,'star')}
-      ${metricCard(t('Reported reviews','المراجعات المُبلّغ عنها'),number(metrics.totalReviews),t('Available aggregate totals','الإجماليات المتاحة'),'reviews')}
-      ${metricCard(t('Review-body records','سجلات نصوص المراجعات'),number(metrics.reviewBodies),`${metrics.branchesWithReviewBodies} ${t('branches represented','فروع ممثلة')}`,'overview')}
-      ${metricCard(t('Weighted network rating','تقييم الشبكة المرجّح'),metrics.weightedRating?metrics.weightedRating.toFixed(2):'—',t('Weighted by review volume','مرجّح بحجم المراجعات'),'check')}
+  const distribution=[5,4,3,2,1].map(star=>({star,count:(data.queries.reviews.rows||[]).filter(item=>Math.round(item.rating)===star).length}));
+  const maxDistribution=Math.max(1,...distribution.map(item=>item.count));
+  return `${refreshStrip()}${pageIntro(t('Ratings and customer reviews','التقييمات ومراجعات العملاء'),t('Monitor reputation, review coverage and customer feedback for every permitted branch.','راقب السمعة وتغطية المراجعات وآراء العملاء لكل فرع مسموح.'))}
+    <section class="reviews-overview" aria-label="${t('Ratings overview','نظرة عامة على التقييمات')}">
+      <div class="reviews-score-card"><span class="overline">${selected?t('Selected branch','الفرع المحدد'):t('Network reputation','سمعة الشبكة')}</span><div class="reviews-score-row"><strong>${selected?rating(selected.rating):(metrics.weightedRating?.toFixed(2)??'—')}</strong><div><span class="stars" aria-hidden="true">★★★★★</span><p>${selected?esc(cleanBranchName(selected.name)):t('Weighted by reported review volume','مرجّح حسب حجم المراجعات المُبلّغ عنها')}</p></div></div><div class="reviews-score-meta"><span>${number(selected?.reviewCount??metrics.totalReviews)} <small>${t('reported reviews','مراجعة مُبلّغ عنها')}</small></span><span>${selectedBodies} <small>${t('review bodies','نص مراجعة')}</small></span><span>${metrics.rated}/${metrics.branches} <small>${t('rated branches','فرعاً مقيّماً')}</small></span></div></div>
+      <div class="reviews-distribution card"><div class="card-head"><div><h2>${t('Fetched review mix','مزيج المراجعات المجلوبة')}</h2><p>${t('Based on review bodies currently available.','بناءً على نصوص المراجعات المتاحة حالياً.')}</p></div>${pill(`${metrics.reviewBodies} ${t('records','سجلات')}`,'neutral')}</div><div class="rating-bars">${distribution.map(item=>`<div><span>${item.star} ★</span><i><b style="width:${Math.round(item.count/maxDistribution*100)}%"></b></i><strong>${item.count}</strong></div>`).join('')}</div></div>
     </section>
-    <div class="branch-hero">${branchHero(selected,metrics)}
-      <section class="card review-coverage"><h3>${t('Selected coverage','تغطية الاختيار')}</h3>
-        <div class="coverage-stat"><span>${t('Aggregate rating','التقييم الإجمالي')}</span><strong>${selected?rating(selected.rating):(metrics.weightedRating?.toFixed(2)??'—')}</strong></div>
-        <div class="coverage-stat"><span>${t('Reported review count','عدد المراجعات المُبلّغ عنها')}</span><strong>${number(selected?.reviewCount??metrics.totalReviews)}</strong></div>
-        <div class="coverage-stat"><span>${t('Fetched review bodies','نصوص المراجعات المجلوبة')}</span><strong>${number(selectedBodies)}</strong></div>
-        <div class="coverage-stat"><span>${t('Active source','المصدر النشط')}</span><strong>${esc(status.source||data.sync?.source||'—')}</strong></div>
-      </section>
-    </div>
-    <div class="review-grid">
-      <section class="card">
-        <div class="card-head"><div><h2>${t('Review feed','سجل المراجعات')}</h2><p>${t('Reviewer, star rating, comment and visible business response when returned by Google.','اسم المراجع والتقييم والتعليق ورد النشاط التجاري الظاهر عند إرجاعه من جوجل.')}</p></div>${pill(`${rows.length} ${t('records','سجلات')}`,'neutral')}</div>
-        <div class="toolbar">
-          <select id="review-branch" aria-label="${t('Select branch','اختر الفرع')}"><option value="all">${t('All 66 branches','جميع الفروع الـ66')}</option>${branches.map(branch=>`<option value="${esc(branch.id)}" ${branch.id===reviewBranch?'selected':''}>${esc(cleanBranchName(branch.name))} · ${Number.isFinite(branch.rating)?rating(branch.rating)+' ★':t('No rating','دون تقييم')}</option>`).join('')}</select>
-          <input id="review-search" type="search" value="${esc(reviewQuery)}" placeholder="${t('Search reviewer, comment or branch…','ابحث عن مراجع أو تعليق أو فرع…')}" aria-label="${t('Search reviews','البحث في المراجعات')}">
-          <select id="review-stars" aria-label="${t('Star rating','التقييم بالنجوم')}"><option value="all">${t('All star ratings','جميع التقييمات')}</option>${[5,4,3,2,1].map(value=>`<option value="${value}" ${String(value)===String(reviewStars)?'selected':''}>${value} ★</option>`).join('')}</select>
-        </div>
-        <div id="review-results">${reviewCards(rows,selected)}</div>
-        ${!status.source?.startsWith('Google Business')?`<p class="data-message">${t('Google has authenticated this application, but its official Business Profile quota is still awaiting approval. Aggregate ratings and counts update from the labelled public fallback; full review text will update automatically after approval.','تمت مصادقة التطبيق مع جوجل، لكن حصة واجهة ملف النشاط التجاري الرسمية ما زالت بانتظار الموافقة. تتحدث التقييمات والأعداد من المصدر العام الموضح، وستتحدث نصوص المراجعات كاملة تلقائياً بعد الموافقة.')}</p>`:''}
-      </section>
-      <aside class="card"><div class="card-head"><div><h2>${t('Branch rating directory','دليل تقييم الفروع')}</h2><p>${t('All available aggregate ratings.','جميع التقييمات الإجمالية المتاحة.')}</p></div></div>
-        <div class="card-body mini-list">${directory.map(branch=>`<button class="mini-row rating-branch" data-review-branch="${esc(branch.id)}"><span><strong>${esc(cleanBranchName(branch.name))}</strong><small>${Number.isFinite(branch.reviewCount)?number(branch.reviewCount)+' '+t('reviews','مراجعة'):t('No count available','لا يوجد عدد متاح')}</small></span><span class="star-value">${Number.isFinite(branch.rating)?rating(branch.rating)+' ★':'—'}</span></button>`).join('')}</div>
-      </aside>
-    </div>`;
+    <section class="review-kpis">
+      ${metricCard(t('Rating coverage','تغطية التقييم'),`${Math.round(metrics.coverage*100)}%`,`${metrics.rated}/${metrics.branches} ${t('branches','فرعاً')}`,'star')}
+      ${metricCard(t('Reported reviews','المراجعات المُبلّغ عنها'),number(metrics.totalReviews),t('Aggregate public totals','الإجماليات العامة'),'reviews')}
+      ${metricCard(t('Fetched review bodies','نصوص المراجعات المجلوبة'),number(metrics.reviewBodies),`${metrics.branchesWithReviewBodies} ${t('branches represented','فروع ممثلة')}`,'overview')}
+    </section>
+    <section class="card review-workspace">
+      <div class="review-workspace-head"><div><span class="eyebrow">${t('Customer voice','صوت العميل')}</span><h2>${t('Review feed','سجل المراجعات')}</h2><p>${t('Filter by branch, rating or keyword. Results update in place.','صفّ حسب الفرع أو التقييم أو الكلمة. تتحدث النتائج فوراً.')}</p></div>${pill(`${rows.length} ${t('shown','معروضة')}`,'neutral')}</div>
+      <div class="review-toolbar">
+        <label><span>${t('Branch','الفرع')}</span><select id="review-branch"><option value="all">${t('All 66 branches','جميع الفروع الـ66')}</option>${branches.map(branch=>`<option value="${esc(branch.id)}" ${branch.id===reviewBranch?'selected':''}>${esc(cleanBranchName(branch.name))}</option>`).join('')}</select></label>
+        <label class="review-search"><span>${t('Search','البحث')}</span><input id="review-search" type="search" value="${esc(reviewQuery)}" placeholder="${t('Reviewer, comment or branch','مراجع أو تعليق أو فرع')}"></label>
+        <label><span>${t('Rating','التقييم')}</span><select id="review-stars"><option value="all">${t('All ratings','جميع التقييمات')}</option>${[5,4,3,2,1].map(value=>`<option value="${value}" ${String(value)===String(reviewStars)?'selected':''}>${value} ★</option>`).join('')}</select></label>
+      </div>
+      <div class="review-workspace-grid"><div id="review-results">${reviewCards(rows,selected)}</div><aside class="rating-directory"><div class="directory-head"><h3>${t('Branch ratings','تقييمات الفروع')}</h3><span>${directory.length}</span></div><div class="rating-directory-list">${directory.map(branch=>`<button class="rating-branch ${branch.id===reviewBranch?'active':''}" data-review-branch="${esc(branch.id)}"><span><strong>${esc(cleanBranchName(branch.name))}</strong><small>${Number.isFinite(branch.reviewCount)?number(branch.reviewCount)+' '+t('reviews','مراجعة'):t('Count unavailable','العدد غير متاح')}</small></span><b>${Number.isFinite(branch.rating)?rating(branch.rating)+' ★':'—'}</b></button>`).join('')}</div></aside></div>
+      ${!status.source?.startsWith('Google Business')?`<p class="data-message review-source-note">${t('Full review text will update automatically after Google enables the approved Business Profile quota. Current aggregate ratings and counts use the labelled fallback source.','ستتحدث نصوص المراجعات كاملة تلقائياً بعد تفعيل جوجل للحصة المعتمدة. تستخدم التقييمات والأعداد الحالية المصدر الاحتياطي الموضح.')}</p>`:''}
+    </section>`;
 }
 
 function connectionPage(){
@@ -251,6 +248,43 @@ function connectionPage(){
     </div>`;
 }
 
+const permissionCatalog=()=>[
+  {group:t('Screen access','صلاحيات الشاشات'),items:[['screen:overview',t('Overview','نظرة عامة')],['screen:branches',t('Branches','الفروع')],['screen:reviews',t('Ratings & reviews','التقييمات والمراجعات')],['screen:connection',t('Data source','مصدر البيانات')],['screen:users',t('User management','إدارة المستخدمين')]]},
+  {group:t('Action access','صلاحيات الإجراءات'),items:[['data.refresh',t('Refresh branch data','تحديث بيانات الفروع')],['google.connect',t('Manage Google connection','إدارة اتصال جوجل')],['users.view',t('View users','عرض المستخدمين')],['users.manage',t('Create and manage users','إنشاء المستخدمين وإدارتهم')]]}
+];
+
+function roleLabel(role){return role==='super_admin'?t('Super Admin','مسؤول أعلى'):role==='admin'?t('Admin','مسؤول'):t('User','مستخدم')}
+
+function userManagementPage(){
+  const active=managedUsers.filter(user=>user.active).length;
+  const administrators=managedUsers.filter(user=>user.roles.includes('admin')||user.roles.includes('super_admin')).length;
+  return `${pageIntro(t('User management','إدارة المستخدمين'),t('Create users and control access to each screen and administrative action.','أنشئ المستخدمين وتحكم في الوصول إلى كل شاشة وإجراء إداري.'),allowed('users.manage')?`<button class="button primary" id="create-user" type="button">${icon('users')}${t('Create user','إنشاء مستخدم')}</button>`:'')}
+    <section class="user-summary"><div><span>${t('Total users','إجمالي المستخدمين')}</span><strong>${managedUsers.length}</strong></div><div><span>${t('Active users','المستخدمون النشطون')}</span><strong>${active}</strong></div><div><span>${t('Administrators','المسؤولون')}</span><strong>${administrators}</strong></div></section>
+    <section class="card users-panel"><div class="card-head"><div><h2>${t('Workspace access','الوصول إلى مساحة العمل')}</h2><p>${t('Permissions are enforced by the server for screens and protected actions.','يفرض الخادم الصلاحيات على الشاشات والإجراءات المحمية.')}</p></div>${pill(`${active} ${t('active','نشط')}`,active?'ok':'neutral')}</div>
+      <div class="users-table-wrap"><table class="users-table"><thead><tr><th>${t('User','المستخدم')}</th><th>${t('Roles','الأدوار')}</th><th>${t('Screen access','صلاحيات الشاشات')}</th><th>${t('Status','الحالة')}</th><th>${t('Last sign-in','آخر دخول')}</th><th><span class="sr-only">${t('Actions','الإجراءات')}</span></th></tr></thead><tbody>${managedUsers.map(user=>`<tr><td><div class="user-identity"><span>${esc((user.displayName||user.username).charAt(0).toUpperCase())}</span><div><strong>${esc(user.displayName||user.username)}</strong><small>${esc(user.username)}</small></div></div></td><td><div class="tag-list">${user.roles.map(role=>pill(roleLabel(role),role==='super_admin'?'ok':'neutral')).join('')}</div></td><td><div class="permission-summary">${user.permissions.filter(value=>value.startsWith('screen:')).map(value=>`<span>${esc(routeName(value.slice(7)))}</span>`).join('')||`<em>${t('No screens','لا شاشات')}</em>`}</div></td><td>${pill(user.active?t('Active','نشط'):t('Inactive','غير نشط'),user.active?'ok':'bad')}</td><td>${formatDate(user.lastLoginAt)}</td><td>${allowed('users.manage')?`<button class="button edit-user" data-user="${esc(user.id)}" type="button">${t('Manage','إدارة')}</button>`:''}</td></tr>`).join('')}</tbody></table></div>
+      <div class="user-cards">${managedUsers.map(user=>`<article><div class="user-card-head"><div class="user-identity"><span>${esc((user.displayName||user.username).charAt(0).toUpperCase())}</span><div><strong>${esc(user.displayName||user.username)}</strong><small>${esc(user.username)}</small></div></div>${pill(user.active?t('Active','نشط'):t('Inactive','غير نشط'),user.active?'ok':'bad')}</div><div class="tag-list">${user.roles.map(role=>pill(roleLabel(role),role==='super_admin'?'ok':'neutral')).join('')}</div><dl><dt>${t('Screens','الشاشات')}</dt><dd>${user.permissions.filter(value=>value.startsWith('screen:')).map(value=>esc(routeName(value.slice(7)))).join(', ')||t('None','لا يوجد')}</dd><dt>${t('Last sign-in','آخر دخول')}</dt><dd>${formatDate(user.lastLoginAt)}</dd></dl>${allowed('users.manage')?`<button class="button edit-user" data-user="${esc(user.id)}" type="button">${t('Manage access','إدارة الوصول')}</button>`:''}</article>`).join('')}</div>
+    </section>`;
+}
+
+function routeName(id){return ({overview:t('Overview','نظرة عامة'),branches:t('Branches','الفروع'),reviews:t('Ratings & reviews','التقييمات والمراجعات'),connection:t('Data source','مصدر البيانات'),users:t('User management','إدارة المستخدمين')})[id]||id}
+
+function openUserEditor(user=null){
+  const editing=Boolean(user),selectedRoles=user?.roles??['user'],selectedPermissions=user?.permissions??['screen:overview'];
+  $('#user-dialog-body').innerHTML=`<form id="user-form" class="user-form"><span class="eyebrow">${editing?t('Manage access','إدارة الوصول'):t('New workspace user','مستخدم جديد')}</span><h2 id="user-dialog-title">${editing?esc(user.displayName||user.username):t('Create user','إنشاء مستخدم')}</h2><p>${t('Choose roles, screens and actions. Changes take effect on the user’s next request.','اختر الأدوار والشاشات والإجراءات. تسري التغييرات مع الطلب التالي للمستخدم.')}</p><div class="form-grid"><label>${t('Username','اسم المستخدم')}<input name="username" value="${esc(user?.username||'')}" ${editing?'disabled':''} autocomplete="off" required></label><label>${t('Display name','الاسم المعروض')}<input name="displayName" value="${esc(user?.displayName||'')}" required></label><label class="form-wide">${editing?t('New password (leave blank to keep current)','كلمة مرور جديدة (اتركها فارغة للاحتفاظ بالحالية)'):t('Temporary password','كلمة المرور المؤقتة')}<input name="password" type="password" minlength="10" ${editing?'':'required'} autocomplete="new-password"><small>${t('Minimum 10 characters.','10 أحرف على الأقل.')}</small></label></div><fieldset><legend>${t('Roles','الأدوار')}</legend><div class="choice-grid">${[['user',t('User','مستخدم')],['admin',t('Admin','مسؤول')],['super_admin',t('Super Admin','مسؤول أعلى')]].map(([value,label])=>`<label><input type="checkbox" name="roles" value="${value}" ${selectedRoles.includes(value)?'checked':''}> <span><b>${label}</b><small>${value==='super_admin'?t('Full control including Super Admin assignments','تحكم كامل بما في ذلك تعيين المسؤول الأعلى'):value==='admin'?t('Administrative role; permissions remain configurable','دور إداري مع صلاحيات قابلة للتخصيص'):t('Standard role with selected access','دور قياسي بالوصول المحدد')}</small></span></label>`).join('')}</div></fieldset>${permissionCatalog().map(group=>`<fieldset><legend>${group.group}</legend><div class="permission-grid">${group.items.map(([value,label])=>`<label><input type="checkbox" name="permissions" value="${value}" ${selectedPermissions.includes(value)?'checked':''}> <span>${label}</span></label>`).join('')}</div></fieldset>`).join('')}<label class="active-toggle"><input type="checkbox" name="active" ${user?.active!==false?'checked':''}> <span><b>${t('Active account','حساب نشط')}</b><small>${t('Inactive users cannot sign in and existing sessions stop working.','لا يستطيع المستخدم غير النشط تسجيل الدخول وتتوقف جلساته الحالية.')}</small></span></label><p class="form-error" id="user-form-error" role="alert"></p><div class="dialog-actions"><button class="button" type="button" id="cancel-user">${t('Cancel','إلغاء')}</button><button class="button primary" type="submit">${editing?t('Save changes','حفظ التغييرات'):t('Create user','إنشاء المستخدم')}</button></div></form>`;
+  $('#user-dialog').showModal();
+  $('#cancel-user').addEventListener('click',()=>$('#user-dialog').close());
+  $('#user-form').addEventListener('submit',event=>saveUser(event,user));
+}
+
+async function saveUser(event,user){
+  event.preventDefault();const form=event.currentTarget,button=form.querySelector('[type=submit]'),error=$('#user-form-error');button.disabled=true;error.textContent='';
+  const payload={displayName:form.displayName.value,roles:[...form.querySelectorAll('[name=roles]:checked')].map(item=>item.value),permissions:[...form.querySelectorAll('[name=permissions]:checked')].map(item=>item.value),active:form.active.checked};
+  if(!user)payload.username=form.username.value;if(form.password.value)payload.password=form.password.value;
+  try{const response=await fetch(user?`/api/admin/users/${user.id}`:'/api/admin/users',{method:user?'PATCH':'POST',headers:{'Content-Type':'application/json','X-Dashboard-Request':'1'},body:JSON.stringify(payload)});const result=await response.json().catch(()=>({}));if(!response.ok)throw Error(result.message||t('Could not save user.','تعذر حفظ المستخدم.'));await loadUsers();$('#user-dialog').close();render();toast(user?t('User access updated.','تم تحديث صلاحيات المستخدم.'):t('User created.','تم إنشاء المستخدم.'));}catch(reason){error.textContent=reason.message;button.disabled=false;}
+}
+
+async function loadUsers(){if(!allowed('users.view'))return;const response=await fetch('/api/admin/users',{cache:'no-store'});if(!response.ok)throw Error((await response.json().catch(()=>({}))).message||'User management is unavailable.');managedUsers=(await response.json()).users||[];}
+
 function render(){
   if(!data)return;
   document.documentElement.lang=ar?'ar':'en';
@@ -260,12 +294,13 @@ function render(){
   $('#page-title').textContent=titles[route];
   $('#language').textContent=ar?'English':'العربية';
   $('#logout').textContent=t('Sign out','تسجيل الخروج');
-  $('#signed-user').textContent=signedUser||t('Branch administrator','مسؤول الفروع');
+  $('#signed-user').textContent=sessionUser?.displayName||signedUser||t('Branch administrator','مسؤول الفروع');
   $('#refresh').innerHTML=`${icon('refresh')}${requesting||status.syncing?t('Refreshing…','جارٍ التحديث…'):t('Refresh data','تحديث البيانات')}`;
   $('#refresh').disabled=Boolean(requesting||status.syncing);
+  $('#refresh').hidden=!allowed('data.refresh');
   $('#source-label').textContent=status.source||data.sync?.source||t('Saved snapshot','لقطة محفوظة');
   $('#freshness').textContent=`${t('Displayed snapshot','البيانات المعروضة')}: ${formatDate(data.generatedAt)}`;
-  $('#page').innerHTML=route==='overview'?overview():route==='branches'?branchesPage():route==='reviews'?reviewsPage():connectionPage();
+  $('#page').innerHTML=route==='overview'?overview():route==='branches'?branchesPage():route==='reviews'?reviewsPage():route==='connection'?connectionPage():userManagementPage();
   bindPage();
 }
 
@@ -280,6 +315,8 @@ function bindPage(){
   $('#review-branch')?.addEventListener('change',event=>{reviewBranch=event.target.value;render()});
   $('#review-search')?.addEventListener('input',event=>{reviewQuery=event.target.value;updateReviewResults()});
   $('#review-stars')?.addEventListener('change',event=>{reviewStars=event.target.value;updateReviewResults()});
+  $('#create-user')?.addEventListener('click',()=>openUserEditor());
+  document.querySelectorAll('.edit-user').forEach(button=>button.addEventListener('click',()=>openUserEditor(managedUsers.find(user=>user.id===button.dataset.user))));
 }
 
 function bindBranchLinks(){
@@ -353,11 +390,11 @@ async function poll(){
     const response=await fetch('/api/google/status',{cache:'no-store'});
     if(!response.ok)throw Error('Status unavailable.');
     const next=await response.json();
-    const snapshotChanged=next.snapshotVersion&&next.snapshotVersion!==data.generatedAt;
+    const snapshotChanged=route!=='users'&&next.snapshotVersion&&next.snapshotVersion!==data.generatedAt;
     status=next;
     requesting=Boolean(next.syncing);
     if(snapshotChanged){
-      const snapshotResponse=await fetch('/api/snapshot',{cache:'no-store'});
+      const snapshotResponse=await fetch(`/api/snapshot?screen=${encodeURIComponent(route)}`,{cache:'no-store'});
       if(snapshotResponse.ok)data=await snapshotResponse.json();
     }
     render();
@@ -368,12 +405,14 @@ async function poll(){
   }
 }
 
-function navigate(){
+async function navigate(){
   if(location.hash==='#main'){document.querySelector('main').focus();return}
   const [candidate,params]=location.hash.slice(1).split('?');
-  route=Object.hasOwn(routeTitles(),candidate)?candidate:'overview';
+  const titles=routeTitles(),fallback=Object.keys(titles)[0];
+  route=Object.hasOwn(titles,candidate)?candidate:fallback;
+  if(candidate!==route)history.replaceState(null,'',`#${route}`);
   if(params?.includes('issues=1'))issuesOnly=true;
-  render();
+  try{if(route==='users')await loadUsers();else{const response=await fetch(`/api/snapshot?screen=${encodeURIComponent(route)}`,{cache:'no-store'});if(!response.ok)throw Error((await response.json().catch(()=>({}))).message||'Dashboard data unavailable.');data=await response.json();}render();}catch(error){$('#page').innerHTML=`<section class="card empty-state"><div class="empty-icon">${icon('alert')}</div><h2>${t('Could not load this screen','تعذر تحميل هذه الشاشة')}</h2><p>${esc(error.message)}</p></section>`;}
 }
 
 $('#language').addEventListener('click',()=>{ar=!ar;localStorage.setItem('ak-language',ar?'ar':'en');render()});
@@ -381,15 +420,22 @@ $('#logout').addEventListener('click',async()=>{await fetch('/api/auth/logout',{
 $('#refresh').addEventListener('click',refresh);
 $('.dialog-close').addEventListener('click',()=>$('#detail').close());
 $('#detail').addEventListener('click',event=>{if(event.target===$('#detail'))$('#detail').close()});
-window.addEventListener('hashchange',navigate);
+$('.user-dialog-close').addEventListener('click',()=>$('#user-dialog').close());
+$('#user-dialog').addEventListener('click',event=>{if(event.target===$('#user-dialog'))$('#user-dialog').close()});
+window.addEventListener('hashchange',()=>navigate());
 
 try{
-  const [snapshotResponse,statusResponse,sessionResponse]=await Promise.all([fetch('/api/snapshot',{cache:'no-store'}),fetch('/api/google/status',{cache:'no-store'}),fetch('/api/auth/session',{cache:'no-store'})]);
+  const sessionResponse=await fetch('/api/auth/session',{cache:'no-store'});
   if(sessionResponse.status===401){location.replace('/sign-in');throw Error('Authentication required.');}
-  if(!snapshotResponse.ok||!statusResponse.ok||!sessionResponse.ok)throw Error('Dashboard data unavailable.');
-  [data,status]=await Promise.all([snapshotResponse.json(),statusResponse.json()]);
-  signedUser=(await sessionResponse.json()).username||'';
-  navigate();
+  if(!sessionResponse.ok)throw Error('Dashboard session unavailable.');
+  sessionUser=await sessionResponse.json();signedUser=sessionUser.username||'';
+  const titles=routeTitles();if(!Object.keys(titles).length)throw Error('No dashboard screens are assigned to this account.');
+  const candidate=location.hash.slice(1).split('?')[0];route=Object.hasOwn(titles,candidate)?candidate:Object.keys(titles)[0];
+  const [snapshotResponse,statusResponse]=await Promise.all([route==='users'?Promise.resolve(null):fetch(`/api/snapshot?screen=${encodeURIComponent(route)}`,{cache:'no-store'}),fetch('/api/google/status',{cache:'no-store'})]);
+  if((snapshotResponse&&!snapshotResponse.ok)||!statusResponse.ok)throw Error('Dashboard data unavailable.');
+  if(snapshotResponse)data=await snapshotResponse.json();else{data={generatedAt:null,sync:{},queries:{branches:{rows:[]},reviews:{rows:[]}}};await loadUsers();}
+  status=await statusResponse.json();
+  await navigate();
   setInterval(poll,3000);
 }catch(error){
   $('#page').innerHTML=`<section class="card empty-state"><div class="empty-icon">${icon('alert')}</div><h2>${t('Could not load the dashboard','تعذر تحميل لوحة المعلومات')}</h2><p>${esc(error.message)} ${t('Check that the server is running, then reload.','تحقق من تشغيل الخادم ثم أعد التحميل.')}</p><button class="button primary" id="reload">${t('Reload','إعادة التحميل')}</button></section>`;
